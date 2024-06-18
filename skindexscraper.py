@@ -43,7 +43,7 @@ def get_skin_urls(page):
             continue
         skin_url = f"{SKINDEX_URL}{skin_endpoint}"
         skin_urls.append(skin_url)
-    print("Got skin urls")
+    print(f"Got skin urls {len(skin_urls)}")
     return skin_urls
 
 @run_until_complete
@@ -60,7 +60,7 @@ def get_download_url(skin_url):
     try:
         download_endpoint = next(link.get("href") for link in links if "/download" in link.get("href"))
         download_url = SKINDEX_URL + download_endpoint
-       
+        print("Got download url")
         return download_url
     except Exception as e:
         print(f"Failed to get {skin_url} Exception {e}")
@@ -77,7 +77,7 @@ def get_skin_image(download_url):
         return None
     
     image = Image.open(BytesIO(response.content))
-    
+    print("Got image")
     return image
     
 def save_page(page):
@@ -97,4 +97,3 @@ def save_page(page):
         image = get_skin_image(download_url)
 
         image.save(SKINS_PATH + image_path)
-            
